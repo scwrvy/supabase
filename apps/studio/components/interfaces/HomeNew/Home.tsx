@@ -98,11 +98,12 @@ export const HomeV2 = () => {
           />
         </ScaffoldSection>
 
-        {(tableQuickstartVariant === 'templates' || tableQuickstartVariant === 'ai') && !isPaused && (
-          <ScaffoldSection isFullWidth className="pt-8">
-            <TableQuickstart />
-          </ScaffoldSection>
-        )}
+        {(tableQuickstartVariant === 'templates' || tableQuickstartVariant === 'ai') &&
+          !isPaused && (
+            <ScaffoldSection isFullWidth className="pt-8">
+              <TableQuickstart />
+            </ScaffoldSection>
+          )}
       </ScaffoldContainer>
 
       {!isPaused && (

@@ -130,7 +130,6 @@ export const TableEditor = ({
   // Get quickstart table fields if available (can be removed after A/B test)
   const quickstartTableFields = useQuickstartTableFields(visible, isNewRecord, selectedSchema)
 
-
   const { data: constraints } = useTableConstraintsQuery({
     projectRef: project?.ref,
     connectionString: project?.connectionString,
