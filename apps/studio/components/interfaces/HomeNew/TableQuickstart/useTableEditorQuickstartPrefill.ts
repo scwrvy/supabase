@@ -15,10 +15,7 @@ export const useTableEditorQuickstartPrefill = () => {
 
     const urlParams = new URLSearchParams(window.location.search)
     if (urlParams.get('openCreateTable') === 'true') {
-      const quickstartData = sessionStorage.getItem('table-quickstart-data')
-      if (quickstartData) {
-        tableEditorSnap.onAddTable()
-      }
+      tableEditorSnap.onAddTable()
 
       urlParams.delete('openCreateTable')
       const newUrl = `${window.location.pathname}${urlParams.toString() ? '?' + urlParams.toString() : ''}`

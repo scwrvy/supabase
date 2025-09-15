@@ -41,15 +41,14 @@ export const useQuickstart = () => {
     setError(null)
 
     try {
-      // Store the table definition for the table editor to pick up
-      sessionStorage.setItem(
-        'table-quickstart-data',
-        JSON.stringify({
-          tableName: table.tableName,
-          fields: table.fields,
-        })
-      )
+      // Store the table definition in sessionStorage
+      const quickstartData = {
+        tableName: table.tableName,
+        fields: table.fields,
+      }
+      sessionStorage.setItem('table-quickstart-data', JSON.stringify(quickstartData))
 
+      // Navigate to editor with a flag to open the create table panel
       router.push(`/project/${projectId}/editor?openCreateTable=true`)
     } catch (e: any) {
       setError(e?.message ?? 'Failed to create table')

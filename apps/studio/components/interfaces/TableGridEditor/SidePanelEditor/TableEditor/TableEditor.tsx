@@ -43,7 +43,7 @@ import {
   generateTableFieldFromPostgresTable,
   validateFields,
 } from './TableEditor.utils'
-import { useProcessQuickstartData } from 'components/interfaces/HomeNew/TableQuickstart/useProcessQuickstartData'
+import { useQuickstartTableFields } from 'components/interfaces/HomeNew/TableQuickstart/useQuickstartTableFields'
 
 export interface TableEditorProps {
   table?: PostgresTable
@@ -126,8 +126,10 @@ export const TableEditor = ({
   const [importContent, setImportContent] = useState<ImportContent>()
   const [isImportingSpreadsheet, setIsImportingSpreadsheet] = useState<boolean>(false)
   const [rlsConfirmVisible, setRlsConfirmVisible] = useState<boolean>(false)
-  
-  const quickstartTableFields = useProcessQuickstartData(selectedSchema)
+
+  // Get quickstart table fields if available (can be removed after A/B test)
+  const quickstartTableFields = useQuickstartTableFields(visible, isNewRecord, selectedSchema)
+
 
   const { data: constraints } = useTableConstraintsQuery({
     projectRef: project?.ref,
@@ -228,10 +230,11 @@ export const TableEditor = ({
       setImportContent(undefined)
       setIsDuplicateRows(false)
       if (isNewRecord) {
-        // Use quickstart data if available, otherwise use default
-        const tableFields = quickstartTableFields || generateTableField()
-        setTableFields(tableFields)
-        setFkRelations([])
+        // Use quickstart table fields from hook (handles both quickstart and default cases)
+        if (quickstartTableFields) {
+          setTableFields(quickstartTableFields)
+          setFkRelations([])
+        }
       } else {
         const tableFields = generateTableFieldFromPostgresTable(
           table,
@@ -242,7 +245,7 @@ export const TableEditor = ({
         setTableFields(tableFields)
       }
     }
-  }, [visible])
+  }, [visible, quickstartTableFields])
 
   useEffect(() => {
     if (isSuccessForeignKeyMeta) setFkRelations(formatForeignKeys(foreignKeys))
