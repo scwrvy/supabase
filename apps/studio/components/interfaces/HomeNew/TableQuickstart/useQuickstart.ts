@@ -29,7 +29,6 @@ export const useQuickstart = () => {
 
   const handleAiGenerate = (prompt: string) => {
     setIsGenerating(true)
-    // TODO [Sean]: Replace timeout with actual AI API call
     setTimeout(() => {
       onTablesReady(SOCIAL_MEDIA_TABLES, prompt)
     }, 1500)
@@ -41,14 +40,12 @@ export const useQuickstart = () => {
     setError(null)
 
     try {
-      // Store the table definition in sessionStorage
       const quickstartData = {
         tableName: table.tableName,
         fields: table.fields,
       }
       sessionStorage.setItem('table-quickstart-data', JSON.stringify(quickstartData))
 
-      // Navigate to editor with a flag to open the create table panel
       router.push(`/project/${projectId}/editor?openCreateTable=true`)
     } catch (e: any) {
       setError(e?.message ?? 'Failed to create table')
@@ -66,7 +63,6 @@ export const useQuickstart = () => {
   }
 
   return {
-    // State
     currentStep,
     candidates,
     selectedTable,
@@ -74,8 +70,6 @@ export const useQuickstart = () => {
     error,
     userInput,
     isGenerating,
-
-    // Handlers
     onTablesReady,
     handleAiGenerate,
     handleSelectTable,

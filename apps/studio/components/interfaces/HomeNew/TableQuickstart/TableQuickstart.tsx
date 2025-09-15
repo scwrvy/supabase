@@ -66,11 +66,7 @@ export const TableQuickstart = ({ variant = 'ai' }: TableQuickstartProps = {}) =
               </p>
             </div>
 
-            <TablePicker
-              tables={candidates}
-              onSelectTable={handleSelectTable}
-              loading={loading}
-            />
+            <TablePicker tables={candidates} onSelectTable={handleSelectTable} loading={loading} />
 
             {error && <div className="text-sm text-destructive text-center mt-3">{error}</div>}
           </div>

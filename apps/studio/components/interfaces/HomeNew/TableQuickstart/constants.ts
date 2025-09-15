@@ -29,7 +29,7 @@ export const APP_TEMPLATES: TableTemplate[] = [
     description: 'Posts, comments, and user interactions',
     iconName: 'User',
     category: 'social',
-    tables: [] // Will use SOCIAL_MEDIA_TABLES from mockData
+    tables: [],
   },
   {
     id: 'ecommerce-app',
@@ -37,7 +37,7 @@ export const APP_TEMPLATES: TableTemplate[] = [
     description: 'Products, orders, and inventory',
     iconName: 'Storage',
     category: 'commerce',
-    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
+    tables: [],
   },
   {
     id: 'blog-app',
@@ -45,7 +45,7 @@ export const APP_TEMPLATES: TableTemplate[] = [
     description: 'Articles, authors, and categories',
     iconName: 'ApiDocs',
     category: 'content',
-    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
+    tables: [],
   },
   {
     id: 'project-app',
@@ -53,7 +53,7 @@ export const APP_TEMPLATES: TableTemplate[] = [
     description: 'Tasks, teams, and timelines',
     iconName: 'Reports',
     category: 'productivity',
-    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
+    tables: [],
   },
   {
     id: 'analytics-app',
@@ -61,6 +61,6 @@ export const APP_TEMPLATES: TableTemplate[] = [
     description: 'Events, metrics, and dashboards',
     iconName: 'Realtime',
     category: 'productivity',
-    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
+    tables: [],
   },
 ]

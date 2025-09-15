@@ -21,14 +21,12 @@ export const useQuickstartTableFields = (
       return
     }
 
-    // Check for quickstart data
     const quickstartDataStr = IS_PLATFORM ? sessionStorage.getItem('table-quickstart-data') : null
 
     if (quickstartDataStr) {
       try {
         const quickstartData = JSON.parse(quickstartDataStr)
 
-        // Create columns from quickstart data
         const columns = quickstartData.fields.map((field: any, index: number) => ({
           id: `column-${index}`,
           name: field.name,
@@ -54,16 +52,12 @@ export const useQuickstartTableFields = (
 
         setTableFields(fields)
 
-        // Clear the data after using it
         sessionStorage.removeItem('table-quickstart-data')
       } catch (error) {
-        console.error('Failed to parse quickstart data:', error)
         sessionStorage.removeItem('table-quickstart-data')
-        // Fall back to default
         setTableFields(generateTableField())
       }
     } else {
-      // No quickstart data, use default
       setTableFields(generateTableField())
     }
   }, [visible, isNewRecord, selectedSchema])

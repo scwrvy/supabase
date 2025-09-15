@@ -1,9 +1,5 @@
 import { useState } from 'react'
-import {
-  AiIconAnimation,
-  Button_Shadcn_,
-  Input_Shadcn_,
-} from 'ui'
+import { AiIconAnimation, Button_Shadcn_, Input_Shadcn_ } from 'ui'
 
 interface AiPromptInputProps {
   onGenerate: (prompt: string) => void

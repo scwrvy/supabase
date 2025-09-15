@@ -23,7 +23,6 @@ export const TemplateSelector = ({ onSelect }: TemplateSelectorProps) => {
 
   return (
     <div className="space-y-4">
-
       <div className="grid grid-cols-5 gap-3">
         {APP_TEMPLATES.map((template) => {
           const IconComponent = iconComponents[template.iconName as keyof typeof iconComponents]

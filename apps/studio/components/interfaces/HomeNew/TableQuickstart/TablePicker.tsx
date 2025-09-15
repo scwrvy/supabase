@@ -22,10 +22,7 @@ export const TablePicker = ({ tables, onSelectTable, loading }: TablePickerProps
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 items-stretch">
         {tables.map((table, index) => (
-          <div
-            key={table.tableName}
-            className="relative h-full"
-          >
+          <div key={table.tableName} className="relative h-full">
             <TablePreviewCard
               table={table}
               isActive={selectedIndex === index}
