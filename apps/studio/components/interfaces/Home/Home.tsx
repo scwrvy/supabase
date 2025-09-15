@@ -10,7 +10,6 @@ import { EXAMPLE_PROJECTS } from 'components/interfaces/Home/Home.constants'
 import { NewProjectPanel } from 'components/interfaces/Home/NewProjectPanel/NewProjectPanel'
 import { ProjectUsageSection } from 'components/interfaces/Home/ProjectUsageSection'
 import { ServiceStatus } from 'components/interfaces/Home/ServiceStatus'
-import { TableQuickstart } from 'components/interfaces/HomeNew/TableQuickstart/TableQuickstart'
 import { ProjectPausedState } from 'components/layouts/ProjectLayout/PausedState/ProjectPausedState'
 import { ComputeBadgeWrapper } from 'components/ui/ComputeBadgeWrapper'
 import { InlineLink } from 'components/ui/InlineLink'
@@ -50,7 +49,6 @@ export const Home = () => {
   const isOrioleDb = useIsOrioleDb()
   const snap = useAppStateSnapshot()
   const { ref, enableBranching } = useParams()
-  const tableQuickstartVariant = usePHFlag('tableQuickstart') as string
 
   const { projectHomepageExampleProjects, projectHomepageClientLibraries: clientLibraries } =
     useCustomContent(['project_homepage:example_projects', 'project_homepage:client_libraries'])
@@ -211,16 +209,6 @@ export const Home = () => {
           {isPaused && <ProjectPausedState />}
         </div>
       </div>
-
-      {IS_PLATFORM &&
-        (tableQuickstartVariant === 'templates' || tableQuickstartVariant === 'ai') &&
-        !isPaused && (
-          <div className="px-4 py-8 border-b border-muted">
-            <div className="mx-auto max-w-7xl">
-              <TableQuickstart />
-            </div>
-          </div>
-        )}
 
       {!isPaused && (
         <>

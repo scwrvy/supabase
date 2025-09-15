@@ -10,6 +10,7 @@ import { TableEditorMenu } from 'components/layouts/TableEditorLayout/TableEdito
 import { NewTab } from 'components/layouts/Tabs/NewTab'
 import { useDashboardHistory } from 'hooks/misc/useDashboardHistory'
 import { editorEntityTypes, useTabsStateSnapshot } from 'state/tabs'
+import { useTableEditorQuickstartPrefill } from 'components/interfaces/HomeNew/TableQuickstart/useTableEditorQuickstartPrefill'
 import type { NextPageWithLayout } from 'types'
 
 const TableEditorPage: NextPageWithLayout = () => {
@@ -17,6 +18,8 @@ const TableEditorPage: NextPageWithLayout = () => {
   const { ref: projectRef } = useParams()
   const tabStore = useTabsStateSnapshot()
   const { history, isHistoryLoaded } = useDashboardHistory()
+
+  useTableEditorQuickstartPrefill()
 
   const onTableCreated = (table: { id: number }) => {
     router.push(`/project/${projectRef}/editor/${table.id}`)

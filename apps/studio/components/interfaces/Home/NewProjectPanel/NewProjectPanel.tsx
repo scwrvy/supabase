@@ -10,12 +10,12 @@ import { Button } from 'ui'
 import { APIKeys } from './APIKeys'
 import { GetStartedHero } from './GetStartedHero'
 import { usePHFlag } from 'hooks/ui/useFlag'
-import { GETTING_STARTED_WIDGET_COPY } from 'components/interfaces/HomeNew/TableQuickstart/constants'
+import { TableQuickstart } from 'components/interfaces/HomeNew/TableQuickstart/TableQuickstart'
 
 export const NewProjectPanel = () => {
   const { ref } = useParams()
   const tableQuickstartVariant = usePHFlag('tableQuickstart') as 'control' | 'ai' | 'templates'
-  const variant = tableQuickstartVariant ?? 'control'
+  const variant = tableQuickstartVariant || 'control'
 
   const {
     projectAuthAll: authEnabled,
@@ -37,7 +37,11 @@ export const NewProjectPanel = () => {
             </div>
           </div>
 
-          <QuickstartWidget paramRef={ref ?? ''} variant={variant} />
+          {variant === 'control' ? (
+            <CreateTableCTA paramRef={ref ?? ''} />
+          ) : (
+            <TableQuickstart variant={variant} />
+          )}
 
           {authEnabled && edgeFunctionsEnabled && storageEnabled && (
             <div className="flex h-full flex-col justify-between space-y-6">
@@ -235,48 +239,35 @@ export const NewProjectPanel = () => {
   )
 }
 
-const QuickstartWidget = ({
-  paramRef,
-  variant,
-}: {
-  paramRef: string
-  variant: 'control' | 'ai' | 'templates'
-}) => {
-  console.log('variant', variant)
+const CreateTableCTA = ({ paramRef }: { paramRef: string }) => {
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 flex flex-col justify-center space-y-8 lg:col-span-7">
         <div className="space-y-2">
-          <h2>{GETTING_STARTED_WIDGET_COPY[variant]?.title}</h2>
+          <h2>Get started by building out your database</h2>
           <p className="text-base text-foreground-light">
             Start building your app by creating tables and inserting data. Our Table Editor makes
             Postgres as easy to use as a spreadsheet, but there's also our SQL Editor if you need
             something more.
           </p>
         </div>
-        <StandardCTAButtons paramRef={paramRef} />
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild type="default" icon={<TableEditor strokeWidth={1.5} />}>
+            <EditorIndexPageLink projectRef={paramRef}>Table Editor</EditorIndexPageLink>
+          </Button>
+          <Button asChild type="default" icon={<SqlEditor strokeWidth={1.5} />}>
+            <Link href={`/project/${paramRef}/sql/new`}>SQL Editor</Link>
+          </Button>
+          <Button asChild type="default" icon={<ExternalLink />}>
+            <Link href="https://supabase.com/docs/guides/database" target="_blank" rel="noreferrer">
+              About Database
+            </Link>
+          </Button>
+        </div>
       </div>
       <div className="col-span-12 lg:col-span-5">
         <GetStartedHero />
       </div>
-    </div>
-  )
-}
-
-const StandardCTAButtons = ({ paramRef }: { paramRef: string }) => {
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      <Button asChild type="default" icon={<TableEditor strokeWidth={1.5} />}>
-        <EditorIndexPageLink projectRef={paramRef}>Table Editor</EditorIndexPageLink>
-      </Button>
-      <Button asChild type="default" icon={<SqlEditor strokeWidth={1.5} />}>
-        <Link href={`/project/${paramRef}/sql/new`}>SQL Editor</Link>
-      </Button>
-      <Button asChild type="default" icon={<ExternalLink />}>
-        <Link href="https://supabase.com/docs/guides/database" target="_blank" rel="noreferrer">
-          About Database
-        </Link>
-      </Button>
     </div>
   )
 }

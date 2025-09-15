@@ -2,9 +2,10 @@ import { ApiDocs, Database, Realtime, Reports, Storage, User } from 'icons'
 import { Card, CardContent, CardDescription, CardTitle } from 'ui'
 import { TABLE_TEMPLATES, TableTemplate } from './constants'
 import type { TableSuggestion } from './types'
+import { SOCIAL_MEDIA_TABLES } from './mockData'
 
 interface TemplateSelectorProps {
-  onSelect: (tables: TableSuggestion[]) => void
+  onSelect: (tables: TableSuggestion[], templateName: string) => void
 }
 
 const iconComponents = {
@@ -17,8 +18,7 @@ const iconComponents = {
 
 export const TemplateSelector = ({ onSelect }: TemplateSelectorProps) => {
   const handleTemplateSelect = (template: TableTemplate) => {
-    // Simply pass the pre-defined tables from the template
-    onSelect(template.tables)
+    onSelect(SOCIAL_MEDIA_TABLES, template.name)
   }
 
   return (

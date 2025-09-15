@@ -10,15 +10,10 @@ export interface TableTemplate {
 }
 
 export const GETTING_STARTED_WIDGET_COPY = {
-  control: {
-    title: 'Get started by building out your database',
-    description:
-      "Start building your app by creating tables and inserting data. Our Table Editor makes Postgres as easy to use as a spreadsheet, but there's also our SQL Editor if you need something more.",
-  },
   ai: {
     title: 'Kickstart your database with AI',
     description:
-      'Describe your app, and our AI will suggest starter table schemas to get you going. Edit and customize them as you go. No SQL required..',
+      'Describe your app, and our AI will suggest starter table schemas to get you going. Edit and customize them as you go. No SQL required.',
   },
   templates: {
     title: 'Start with a ready-made database',

@@ -43,6 +43,7 @@ import {
   generateTableFieldFromPostgresTable,
   validateFields,
 } from './TableEditor.utils'
+import { useProcessQuickstartData } from 'components/interfaces/HomeNew/TableQuickstart/useProcessQuickstartData'
 
 export interface TableEditorProps {
   table?: PostgresTable
@@ -125,6 +126,8 @@ export const TableEditor = ({
   const [importContent, setImportContent] = useState<ImportContent>()
   const [isImportingSpreadsheet, setIsImportingSpreadsheet] = useState<boolean>(false)
   const [rlsConfirmVisible, setRlsConfirmVisible] = useState<boolean>(false)
+  
+  const quickstartTableFields = useProcessQuickstartData(selectedSchema)
 
   const { data: constraints } = useTableConstraintsQuery({
     projectRef: project?.ref,
@@ -225,7 +228,8 @@ export const TableEditor = ({
       setImportContent(undefined)
       setIsDuplicateRows(false)
       if (isNewRecord) {
-        const tableFields = generateTableField()
+        // Use quickstart data if available, otherwise use default
+        const tableFields = quickstartTableFields || generateTableField()
         setTableFields(tableFields)
         setFkRelations([])
       } else {
