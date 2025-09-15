@@ -22,144 +22,45 @@ export const GETTING_STARTED_WIDGET_COPY = {
   },
 }
 
-export const TABLE_TEMPLATES: TableTemplate[] = [
+export const APP_TEMPLATES: TableTemplate[] = [
   {
-    id: 'user-profiles',
-    name: 'User Profiles',
-    description: 'Extends Supabase auth with user metadata',
+    id: 'social-app',
+    name: 'Social Media',
+    description: 'Posts, comments, and user interactions',
     iconName: 'User',
-    category: 'user',
-    tables: [
-      {
-        tableName: 'profiles',
-        fields: [
-          { name: 'id', type: 'uuid', nullable: false },
-          { name: 'username', type: 'text', nullable: true },
-          { name: 'full_name', type: 'text', nullable: true },
-          { name: 'bio', type: 'text', nullable: true },
-          { name: 'avatar_url', type: 'text', nullable: true },
-          { name: 'website', type: 'text', nullable: true },
-          { name: 'created_at', type: 'timestamptz', nullable: false, default: 'now()' },
-          { name: 'updated_at', type: 'timestamptz', nullable: false, default: 'now()' },
-        ],
-        rationale: 'Store extended user profile information',
-        source: 'template'
-      },
-      {
-        tableName: 'user_sessions',
-        fields: [
-          { name: 'id', type: 'uuid', nullable: false, default: 'gen_random_uuid()' },
-          { name: 'user_id', type: 'uuid', nullable: false },
-          { name: 'token', type: 'varchar(255)', nullable: false },
-          { name: 'expires_at', type: 'timestamptz', nullable: false },
-          { name: 'created_at', type: 'timestamptz', nullable: false, default: 'now()' },
-        ],
-        rationale: 'Track user sessions for authentication',
-        source: 'template'
-      }
-    ]
+    category: 'social',
+    tables: [] // Will use SOCIAL_MEDIA_TABLES from mockData
   },
   {
-    id: 'blog-posts',
-    name: 'Blog Posts',
-    description: 'Perfect for blogs and content management',
-    iconName: 'ApiDocs',
-    category: 'content',
-    tables: [
-      {
-        tableName: 'posts',
-        fields: [
-          { name: 'id', type: 'bigserial', nullable: false },
-          { name: 'author_id', type: 'uuid', nullable: true },
-          { name: 'title', type: 'text', nullable: false },
-          { name: 'slug', type: 'text', nullable: false },
-          { name: 'content', type: 'text', nullable: true },
-          { name: 'excerpt', type: 'text', nullable: true },
-          { name: 'featured_image', type: 'text', nullable: true },
-          { name: 'status', type: 'text', nullable: false, default: "'draft'" },
-          { name: 'published_at', type: 'timestamptz', nullable: true },
-          { name: 'created_at', type: 'timestamptz', nullable: false, default: 'now()' },
-          { name: 'updated_at', type: 'timestamptz', nullable: false, default: 'now()' },
-        ],
-        rationale: 'Store blog posts with publishing workflow',
-        source: 'template'
-      }
-    ]
-  },
-  {
-    id: 'products',
-    name: 'Products',
-    description: 'E-commerce with pricing and inventory',
+    id: 'ecommerce-app',
+    name: 'E-commerce',
+    description: 'Products, orders, and inventory',
     iconName: 'Storage',
     category: 'commerce',
-    tables: [
-      {
-        tableName: 'products',
-        fields: [
-          { name: 'id', type: 'bigserial', nullable: false },
-          { name: 'name', type: 'text', nullable: false },
-          { name: 'description', type: 'text', nullable: true },
-          { name: 'price', type: 'decimal(10,2)', nullable: true },
-          { name: 'sku', type: 'text', nullable: true },
-          { name: 'category', type: 'text', nullable: true },
-          { name: 'stock_quantity', type: 'integer', nullable: false, default: 0 },
-          { name: 'image_url', type: 'text', nullable: true },
-          { name: 'is_active', type: 'boolean', nullable: false, default: true },
-          { name: 'created_at', type: 'timestamptz', nullable: false, default: 'now()' },
-        ],
-        rationale: 'Manage product catalog with inventory',
-        source: 'template'
-      }
-    ]
+    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
   },
   {
-    id: 'tasks',
-    name: 'Tasks',
-    description: 'Todo lists and project management',
+    id: 'blog-app',
+    name: 'Blog/CMS',
+    description: 'Articles, authors, and categories',
+    iconName: 'ApiDocs',
+    category: 'content',
+    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
+  },
+  {
+    id: 'project-app',
+    name: 'Project Mgmt',
+    description: 'Tasks, teams, and timelines',
     iconName: 'Reports',
     category: 'productivity',
-    tables: [
-      {
-        tableName: 'tasks',
-        fields: [
-          { name: 'id', type: 'bigserial', nullable: false },
-          { name: 'user_id', type: 'uuid', nullable: true },
-          { name: 'title', type: 'text', nullable: false },
-          { name: 'description', type: 'text', nullable: true },
-          { name: 'status', type: 'text', nullable: false, default: "'pending'" },
-          { name: 'priority', type: 'integer', nullable: false, default: 3 },
-          { name: 'due_date', type: 'date', nullable: true },
-          { name: 'completed_at', type: 'timestamptz', nullable: true },
-          { name: 'created_at', type: 'timestamptz', nullable: false, default: 'now()' },
-        ],
-        rationale: 'Track tasks with priorities and due dates',
-        source: 'template'
-      }
-    ]
+    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
   },
   {
-    id: 'comments',
-    name: 'Comments',
-    description: 'Comments system with nested replies',
+    id: 'analytics-app',
+    name: 'Analytics',
+    description: 'Events, metrics, and dashboards',
     iconName: 'Realtime',
-    category: 'social',
-    tables: [
-      {
-        tableName: 'comments',
-        fields: [
-          { name: 'id', type: 'bigserial', nullable: false },
-          { name: 'user_id', type: 'uuid', nullable: true },
-          { name: 'content', type: 'text', nullable: false },
-          { name: 'parent_id', type: 'bigint', nullable: true },
-          { name: 'entity_type', type: 'text', nullable: false },
-          { name: 'entity_id', type: 'text', nullable: false },
-          { name: 'is_edited', type: 'boolean', nullable: false, default: false },
-          { name: 'created_at', type: 'timestamptz', nullable: false, default: 'now()' },
-          { name: 'updated_at', type: 'timestamptz', nullable: false, default: 'now()' },
-        ],
-        rationale: 'Enable commenting with nested replies',
-        source: 'template'
-      }
-    ]
-  }
+    category: 'productivity',
+    tables: [] // Will use SOCIAL_MEDIA_TABLES for demo
+  },
 ]

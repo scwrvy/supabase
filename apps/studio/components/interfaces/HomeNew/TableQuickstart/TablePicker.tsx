@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { TablePreviewCard } from './TablePreviewCard'
 import type { TableSuggestion } from './types'
 
-interface TableCarouselProps {
+interface TablePickerProps {
   tables: readonly TableSuggestion[]
   onSelectTable: (table: TableSuggestion) => void
   loading?: boolean
 }
 
-export const TableCarousel = ({ tables, onSelectTable, loading }: TableCarouselProps) => {
+export const TablePicker = ({ tables, onSelectTable, loading }: TablePickerProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   const handleSelectTable = (index: number) => {

@@ -2,7 +2,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Button_Shadcn_ } from 'ui'
 import { TemplateSelector } from './TemplateSelector'
 import { AiPromptInput } from './AiPromptInput'
-import { TableCarousel } from './TableCarousel'
+import { TablePicker } from './TablePicker'
 import { GETTING_STARTED_WIDGET_COPY } from './constants'
 import { useQuickstart } from './useQuickstart'
 
@@ -66,7 +66,7 @@ export const TableQuickstart = ({ variant = 'ai' }: TableQuickstartProps = {}) =
               </p>
             </div>
 
-            <TableCarousel
+            <TablePicker
               tables={candidates}
               onSelectTable={handleSelectTable}
               loading={loading}
