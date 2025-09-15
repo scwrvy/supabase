@@ -39,7 +39,7 @@ export const SOCIAL_MEDIA_TABLES: TableSuggestion[] = [
       { name: 'follower_id', type: 'uuid', nullable: false },
       { name: 'following_id', type: 'uuid', nullable: false },
       { name: 'created_at', type: 'timestamp', nullable: false },
-      { name: 'notification_enabled', type: 'boolean', nullable: false, default: true },
+      { name: 'notification_enabled', type: 'bool', nullable: false, default: true },
     ],
     rationale: 'Tracks relationships between users for the follow system',
     source: 'ai',

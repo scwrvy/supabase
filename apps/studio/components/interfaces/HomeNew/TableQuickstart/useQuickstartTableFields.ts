@@ -31,7 +31,7 @@ export const useQuickstartTableFields = (
           id: `column-${index}`,
           name: field.name,
           format: field.type,
-          defaultValue: field.default,
+          defaultValue: field.default !== undefined ? String(field.default) : undefined,
           isNullable: field.nullable !== false,
           isUnique: false,
           isIdentity: field.name === 'id' && field.type.toLowerCase().includes('int'),
@@ -52,7 +52,11 @@ export const useQuickstartTableFields = (
 
         setTableFields(fields)
 
-        sessionStorage.removeItem('table-quickstart-data')
+        // Don't clear immediately - let the TableEditor component use it first
+        // Clear after a short delay to ensure the data has been consumed
+        setTimeout(() => {
+          sessionStorage.removeItem('table-quickstart-data')
+        }, 1000)
       } catch (error) {
         sessionStorage.removeItem('table-quickstart-data')
         setTableFields(generateTableField())
