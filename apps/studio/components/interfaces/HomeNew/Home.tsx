@@ -5,12 +5,10 @@ import { useEffect, useRef } from 'react'
 import { IS_PLATFORM, useParams } from 'common'
 import { SortableSection } from 'components/interfaces/HomeNew/SortableSection'
 import { TopSection } from 'components/interfaces/HomeNew/TopSection'
-import { TableQuickstart } from 'components/interfaces/HomeNew/TableQuickstart/TableQuickstart'
 import { ScaffoldContainer, ScaffoldSection } from 'components/layouts/Scaffold'
 import { useBranchesQuery } from 'data/branches/branches-query'
 import { useLocalStorage } from 'hooks/misc/useLocalStorage'
 import { useSelectedOrganizationQuery } from 'hooks/misc/useSelectedOrganization'
-import { usePHFlag } from 'hooks/ui/useFlag'
 import {
   useIsOrioleDb,
   useProjectByRefQuery,
@@ -29,7 +27,6 @@ export const HomeV2 = () => {
   const { ref, enableBranching } = useParams()
   const isOrioleDb = useIsOrioleDb()
   const snap = useAppStateSnapshot()
-  const tableQuickstartVariant = usePHFlag('tableQuickstart') as string | undefined
   const { data: project } = useSelectedProjectQuery()
   const { data: organization } = useSelectedOrganizationQuery()
   const { data: parentProject } = useProjectByRefQuery(project?.parent_project_ref)
@@ -97,14 +94,6 @@ export const HomeV2 = () => {
             isPaused={isPaused}
           />
         </ScaffoldSection>
-
-        {tableQuickstartVariant !== undefined &&
-          (tableQuickstartVariant === 'templates' || tableQuickstartVariant === 'ai') &&
-          !isPaused && (
-            <ScaffoldSection isFullWidth className="pt-8">
-              <TableQuickstart />
-            </ScaffoldSection>
-          )}
       </ScaffoldContainer>
 
       {!isPaused && (

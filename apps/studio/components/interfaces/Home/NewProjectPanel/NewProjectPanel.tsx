@@ -14,14 +14,22 @@ import { TableQuickstart } from 'components/interfaces/HomeNew/TableQuickstart/T
 
 export const NewProjectPanel = () => {
   const { ref } = useParams()
-  const tableQuickstartVariant = usePHFlag('tableQuickstart') as 'control' | 'ai' | 'templates'
-  const variant = tableQuickstartVariant || 'control'
+  const tableQuickstartVariant = usePHFlag('tableQuickstart') as
+    | 'control'
+    | 'ai'
+    | 'templates'
+    | false // false = flag is disabled
+    | undefined // undefined = flags are loading
 
   const {
     projectAuthAll: authEnabled,
     projectEdgeFunctionAll: edgeFunctionsEnabled,
     projectStorageAll: storageEnabled,
   } = useIsFeatureEnabled(['project_auth:all', 'project_edge_function:all', 'project_storage:all'])
+
+  if (tableQuickstartVariant === undefined) {
+    return null
+  }
 
   return (
     <div className="grid grid-cols-12 gap-4 lg:gap-20">
@@ -37,10 +45,10 @@ export const NewProjectPanel = () => {
             </div>
           </div>
 
-          {variant === 'control' ? (
+          {tableQuickstartVariant === false || tableQuickstartVariant === 'control' ? (
             <CreateTableCTA paramRef={ref ?? ''} />
           ) : (
-            <TableQuickstart variant={variant} />
+            <TableQuickstart variant={tableQuickstartVariant} />
           )}
 
           {authEnabled && edgeFunctionsEnabled && storageEnabled && (
