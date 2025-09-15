@@ -29,7 +29,7 @@ export const HomeV2 = () => {
   const { ref, enableBranching } = useParams()
   const isOrioleDb = useIsOrioleDb()
   const snap = useAppStateSnapshot()
-  const tableQuickstartVariant = usePHFlag('tableQuickstart') as string
+  const tableQuickstartVariant = usePHFlag('tableQuickstart') as string | undefined
   const { data: project } = useSelectedProjectQuery()
   const { data: organization } = useSelectedOrganizationQuery()
   const { data: parentProject } = useProjectByRefQuery(project?.parent_project_ref)
@@ -98,7 +98,8 @@ export const HomeV2 = () => {
           />
         </ScaffoldSection>
 
-        {(tableQuickstartVariant === 'templates' || tableQuickstartVariant === 'ai') &&
+        {tableQuickstartVariant !== undefined &&
+          (tableQuickstartVariant === 'templates' || tableQuickstartVariant === 'ai') &&
           !isPaused && (
             <ScaffoldSection isFullWidth className="pt-8">
               <TableQuickstart />
