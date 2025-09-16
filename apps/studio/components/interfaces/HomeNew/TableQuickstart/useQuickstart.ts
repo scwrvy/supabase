@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { useParams } from 'common'
 import type { TableSuggestion } from './types'
 import { SOCIAL_MEDIA_TABLES } from './mockData'
+import { QUICKSTART_DATA_KEY, QUICKSTART_URL_PARAM } from './constants'
 
 export const useQuickstart = () => {
   const router = useRouter()
@@ -34,7 +35,7 @@ export const useQuickstart = () => {
     }, 1500)
   }
 
-  const handleSelectTable = async (table: TableSuggestion) => {
+  const handleSelectTable = useCallback(async (table: TableSuggestion) => {
     setSelectedTable(table)
     setLoading(true)
     setError(null)
@@ -44,15 +45,30 @@ export const useQuickstart = () => {
         tableName: table.tableName,
         fields: table.fields,
       }
-      sessionStorage.setItem('table-quickstart-data', JSON.stringify(quickstartData))
 
-      router.push(`/project/${projectId}/editor?openCreateTable=true`)
-    } catch (e: any) {
-      setError(e?.message ?? 'Failed to create table')
+      try {
+        const dataStr = JSON.stringify(quickstartData)
+        sessionStorage.setItem(QUICKSTART_DATA_KEY, dataStr)
+      } catch (storageError) {
+        // Handle sessionStorage errors (quota exceeded, disabled, etc.)
+        const errorMessage = storageError instanceof Error
+          ? `Storage error: ${storageError.message}`
+          : 'Failed to save table data. Please check your browser settings.'
+        setError(errorMessage)
+        setLoading(false)
+        return
+      }
+
+      router.push(`/project/${projectId}/editor?${QUICKSTART_URL_PARAM}=true`)
+    } catch (e) {
+      const errorMessage = e instanceof Error
+        ? e.message
+        : 'Failed to navigate to table editor'
+      setError(errorMessage)
       setLoading(false)
       setCurrentStep('preview')
     }
-  }
+  }, [projectId, router])
 
   const handleBack = () => {
     if (currentStep === 'preview') {

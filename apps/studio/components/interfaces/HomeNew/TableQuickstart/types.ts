@@ -1,8 +1,26 @@
 export type TableField = {
   name: string
-  type: string // e.g., "text" | "uuid" | "int" | etc.
+  type:
+    | 'text'
+    | 'varchar'
+    | 'uuid'
+    | 'int2'
+    | 'int4'
+    | 'int8'
+    | 'float4'
+    | 'float8'
+    | 'numeric'
+    | 'bool'
+    | 'json'
+    | 'jsonb'
+    | 'date'
+    | 'time'
+    | 'timestamp'
+    | 'timestamptz'
+    | 'timez'
+    | 'bytea'
   nullable?: boolean
-  default?: string | number | boolean | null
+  default?: string // Must be string for table editor compatibility
   description?: string
 }
 
@@ -11,4 +29,13 @@ export type TableSuggestion = {
   fields: TableField[]
   rationale?: string
   source: 'ai' | 'template'
+}
+
+export type TableTemplate = {
+  id: string
+  name: string
+  description: string
+  iconName: string
+  category: string
+  tables: TableSuggestion[]
 }

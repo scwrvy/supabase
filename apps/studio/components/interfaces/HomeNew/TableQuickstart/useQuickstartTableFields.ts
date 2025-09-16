@@ -2,6 +2,8 @@ import { IS_PLATFORM } from 'common'
 import { useEffect, useState } from 'react'
 import type { TableField } from 'components/interfaces/TableGridEditor/SidePanelEditor/TableEditor/TableEditor.types'
 import { generateTableField } from 'components/interfaces/TableGridEditor/SidePanelEditor/TableEditor/TableEditor.utils'
+import type { TableField as QuickstartTableField } from './types'
+import { QUICKSTART_DATA_KEY } from './constants'
 
 /**
  * Hook to get table fields from quickstart data when the panel becomes visible.
@@ -21,17 +23,17 @@ export const useQuickstartTableFields = (
       return
     }
 
-    const quickstartDataStr = IS_PLATFORM ? sessionStorage.getItem('table-quickstart-data') : null
+    const quickstartDataStr = IS_PLATFORM ? sessionStorage.getItem(QUICKSTART_DATA_KEY) : null
 
     if (quickstartDataStr) {
       try {
         const quickstartData = JSON.parse(quickstartDataStr)
 
-        const columns = quickstartData.fields.map((field: any, index: number) => ({
+        const columns = quickstartData.fields.map((field: QuickstartTableField, index: number) => ({
           id: `column-${index}`,
           name: field.name,
           format: field.type,
-          defaultValue: field.default !== undefined ? String(field.default) : undefined,
+          defaultValue: field.default,
           isNullable: field.nullable !== false,
           isUnique: false,
           isIdentity: field.name === 'id' && field.type.toLowerCase().includes('int'),
@@ -52,13 +54,11 @@ export const useQuickstartTableFields = (
 
         setTableFields(fields)
 
-        // Don't clear immediately - let the TableEditor component use it first
-        // Clear after a short delay to ensure the data has been consumed
-        setTimeout(() => {
-          sessionStorage.removeItem('table-quickstart-data')
-        }, 1000)
+        // Clear sessionStorage after fields are set
+        // This happens after the component has consumed the data
+        sessionStorage.removeItem(QUICKSTART_DATA_KEY)
       } catch (error) {
-        sessionStorage.removeItem('table-quickstart-data')
+        sessionStorage.removeItem(QUICKSTART_DATA_KEY)
         setTableFields(generateTableField())
       }
     } else {
