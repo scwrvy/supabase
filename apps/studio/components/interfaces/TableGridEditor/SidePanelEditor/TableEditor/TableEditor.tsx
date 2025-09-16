@@ -229,10 +229,11 @@ export const TableEditor = ({
       setImportContent(undefined)
       setIsDuplicateRows(false)
       if (isNewRecord) {
-        // Use quickstart table fields from hook (handles both quickstart and default cases)
         if (quickstartTableFields) {
           setTableFields(quickstartTableFields)
           setFkRelations([])
+        } else {
+          setTableFields(generateTableField())
         }
       } else {
         const tableFields = generateTableFieldFromPostgresTable(

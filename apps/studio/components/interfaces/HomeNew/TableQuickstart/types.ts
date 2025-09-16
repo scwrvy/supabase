@@ -20,6 +20,7 @@ export type TableField = {
     | 'timez'
     | 'bytea'
   nullable?: boolean
+  unique?: boolean
   default?: string // Must be string for table editor compatibility
   description?: string
 }

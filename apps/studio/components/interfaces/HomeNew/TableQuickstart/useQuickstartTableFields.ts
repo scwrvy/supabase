@@ -1,13 +1,13 @@
 import { IS_PLATFORM } from 'common'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import type { TableField } from 'components/interfaces/TableGridEditor/SidePanelEditor/TableEditor/TableEditor.types'
 import { generateTableField } from 'components/interfaces/TableGridEditor/SidePanelEditor/TableEditor/TableEditor.utils'
 import type { TableField as QuickstartTableField } from './types'
 import { QUICKSTART_DATA_KEY } from './constants'
 
 /**
- * Hook to get table fields from quickstart data when the panel becomes visible.
- * Returns default table fields if no quickstart data is found.
+ * Hook to get table fields from quickstart data.
+ * Returns table fields from quickstart data if available, otherwise returns default or null.
  * Can be removed after A/B test concludes.
  */
 export const useQuickstartTableFields = (
@@ -16,10 +16,16 @@ export const useQuickstartTableFields = (
   selectedSchema: string
 ): TableField | null => {
   const [tableFields, setTableFields] = useState<TableField | null>(null)
+  const hasProcessedRef = useRef(false)
 
   useEffect(() => {
     if (!visible || !isNewRecord) {
       setTableFields(null)
+      hasProcessedRef.current = false
+      return
+    }
+
+    if (hasProcessedRef.current) {
       return
     }
 
@@ -29,18 +35,20 @@ export const useQuickstartTableFields = (
       try {
         const quickstartData = JSON.parse(quickstartDataStr)
 
-        const columns = quickstartData.fields.map((field: QuickstartTableField, index: number) => ({
-          id: `column-${index}`,
-          name: field.name,
-          format: field.type,
-          defaultValue: field.default,
-          isNullable: field.nullable !== false,
-          isUnique: false,
-          isIdentity: field.name === 'id' && field.type.toLowerCase().includes('int'),
-          isPrimaryKey: field.name === 'id',
-          comment: field.description || '',
-          isNewColumn: true,
-        }))
+        const columns: TableField['columns'] = quickstartData.fields.map(
+          (field: QuickstartTableField, index: number) => ({
+            id: `column-${index}`,
+            name: field.name,
+            format: field.type,
+            defaultValue: field.default,
+            isNullable: field.nullable !== false,
+            isUnique: field.unique || false,
+            isIdentity: field.name === 'id' && field.type.toLowerCase().includes('int'),
+            isPrimaryKey: field.name === 'id',
+            comment: field.description || '',
+            isNewColumn: true,
+          })
+        )
 
         const fields = {
           id: 0,
@@ -53,18 +61,26 @@ export const useQuickstartTableFields = (
         } as TableField
 
         setTableFields(fields)
+        hasProcessedRef.current = true
 
-        // Clear sessionStorage after fields are set
-        // This happens after the component has consumed the data
+        // Clear sessionStorage after successful processing
         sessionStorage.removeItem(QUICKSTART_DATA_KEY)
       } catch (error) {
-        sessionStorage.removeItem(QUICKSTART_DATA_KEY)
+        console.error('Error processing quickstart data:', error)
         setTableFields(generateTableField())
+        hasProcessedRef.current = true
+        sessionStorage.removeItem(QUICKSTART_DATA_KEY)
       }
     } else {
+      // No quickstart data, use default
       setTableFields(generateTableField())
+      hasProcessedRef.current = true
     }
-  }, [visible, isNewRecord, selectedSchema])
+
+    // This is a bit of a hack to get around a re-render bug that clears the fields in the
+    // table editor.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSchema])
 
   return tableFields
 }

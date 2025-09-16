@@ -2,8 +2,7 @@ import { useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { useParams } from 'common'
 import type { TableSuggestion } from './types'
-import { SOCIAL_MEDIA_TABLES } from './mockData'
-import { QUICKSTART_DATA_KEY, QUICKSTART_URL_PARAM } from './constants'
+import { QUICKSTART_DATA_KEY, QUICKSTART_URL_PARAM, SOCIAL_MEDIA_TABLES } from './constants'
 
 export const useQuickstart = () => {
   const router = useRouter()

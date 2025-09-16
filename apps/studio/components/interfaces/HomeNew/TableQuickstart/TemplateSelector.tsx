@@ -1,8 +1,7 @@
 import { ApiDocs, Database, Realtime, Reports, Storage, User } from 'icons'
 import { Card, CardContent, CardDescription, CardTitle } from 'ui'
-import { APP_TEMPLATES, TableTemplate } from './constants'
-import type { TableSuggestion } from './types'
-import { SOCIAL_MEDIA_TABLES } from './mockData'
+import { APP_TEMPLATES, SOCIAL_MEDIA_TABLES } from './constants'
+import type { TableSuggestion, TableTemplate } from './types'
 
 interface TemplateSelectorProps {
   onSelect: (tables: TableSuggestion[], templateName: string) => void
